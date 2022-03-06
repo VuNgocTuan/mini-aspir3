@@ -2,11 +2,15 @@
 
 namespace App\Exceptions;
 
+use App\Http\Traits\JSONResponseTrait;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use JSONResponseTrait;
     /**
      * A list of the exception types that are not reported.
      *
@@ -37,5 +41,10 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->generateErrorResponse(__('auth.unauthorized'), Response::HTTP_UNAUTHORIZED);
     }
 }

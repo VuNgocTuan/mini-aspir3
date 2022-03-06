@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Repository Service Providers...
+         */
+        UserModule\Providers\RepositoryServiceProvider::class,
+        LoanModule\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

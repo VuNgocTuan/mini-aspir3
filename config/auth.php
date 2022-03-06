@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'users' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+        'bankUsers' => [
+            'driver' => 'sanctum',
+            'provider' => 'bankUsers',
+        ]
     ],
 
     /*
@@ -62,7 +70,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => \UserModule\Models\User::class,
+        ],
+
+        'bankUsers' => [
+            'driver' => 'eloquent',
+            'model' => \BankUserModule\Models\BankUser::class,
         ],
 
         // 'users' => [
