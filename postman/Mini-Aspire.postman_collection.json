@@ -1,0 +1,610 @@
+{
+	"info": {
+		"_postman_id": "cb6c8f24-f8ab-405c-941b-f9d8a045a337",
+		"name": "Mini-Aspire",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "\"application/json\"",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "turcotte.rasheed@example.org",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{userApiUrl}}/auth",
+							"host": [
+								"{{userApiUrl}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Validate Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "\"application/json\"",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "error",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/api/user/auth",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"user",
+										"auth"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"email\": \"The email must be a valid email address.\",\n        \"password\": \"The password field is required.\"\n    }\n}"
+						},
+						{
+							"name": "Creadentials Invalid",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "\"application/json\"",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "xzy.abc@example.xzy",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/api/user/auth",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"user",
+										"auth"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": \"These credentials do not match our records.\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "\"application/json\"",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "turcotte.rasheed@example.org",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/api/user/auth",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"user",
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"token\": \"11|AgGtuUqMQIlJZilmg3uRctk01xYOJr9RcBHiWWyB\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Loan Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "term_by_month",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "1250",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{loanApiUrl}}/applications",
+							"host": [
+								"{{loanApiUrl}}"
+							],
+							"path": [
+								"applications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Validate Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "term_by_month",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "amount",
+											"value": "10",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/api/loan/applications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"loan",
+										"applications"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"term_by_month\": \"The term field is required.\",\n        \"amount\": \"The amount field is required.\"\n    }\n}"
+						},
+						{
+							"name": "Not Acceptable",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "term_by_month",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "amount",
+											"value": "10",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot apply for more loan applications.\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "term_by_month",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "amount",
+											"value": "150",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"loan_id\": 5,\n        \"amount\": \"150.00$\",\n        \"term_by_month\": 2,\n        \"status\": \"Application\",\n        \"created_at\": \"2022-03-06T16:24:53.000000Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Repay Loan Application",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "amount",
+									"value": "56.78",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{loanApiUrl}}/applications/6/repay",
+							"host": [
+								"{{loanApiUrl}}"
+							],
+							"path": [
+								"applications",
+								"6",
+								"repay"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Closed Application Not Allow",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "amount",
+											"value": "111",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications/5/repay",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications",
+										"5",
+										"repay"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": \"You can not repay the closed loan application.\"\n}"
+						},
+						{
+							"name": "Application Not Allow",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "amount",
+											"value": "111",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications/5/repay",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications",
+										"5",
+										"repay"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": \"You need to wait for your loan application applied by a banker.\"\n}"
+						},
+						{
+							"name": "Repay Invalid Amount",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "amount",
+											"value": "111",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications/5/repay",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications",
+										"5",
+										"repay"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": \"Your repay amount is not equal to the weekly repay amount is 25$.\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "amount",
+											"value": "56.818181818182",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/applications/6/repay",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"applications",
+										"6",
+										"repay"
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 6,\n        \"loan_id\": 6,\n        \"amount\": \"56.82$\",\n        \"repay_date\": \"2022-03-06\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Loan Application List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{loanApiUrl}}/applications",
+							"host": [
+								"{{loanApiUrl}}"
+							],
+							"path": [
+								"applications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost/api/loan/applications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"loan",
+										"applications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"loan_id\": 2,\n            \"amount\": \"100.00$\",\n            \"term_by_month\": 1,\n            \"start_date\": \"2022-03-03\",\n            \"expired_date\": \"2022-04-03\",\n            \"repays\": [\n                {\n                    \"id\": 1,\n                    \"loan_id\": 2,\n                    \"amount\": \"25.00$\",\n                    \"repay_date\": \"2022-03-10\"\n                },\n                {\n                    \"id\": 2,\n                    \"loan_id\": 2,\n                    \"amount\": \"25.00$\",\n                    \"repay_date\": \"2022-03-17\"\n                }\n            ],\n            \"loan_amount_remains\": \"50$\",\n            \"status\": \"Open\",\n            \"created_at\": \"2022-03-06T22:21:11.000000Z\"\n        },\n        {\n            \"loan_id\": 5,\n            \"amount\": \"150.00$\",\n            \"term_by_month\": 2,\n            \"status\": \"Application\",\n            \"created_at\": \"2022-03-06T16:24:53.000000Z\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bankers",
+			"item": [
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Loan User list",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Loan Process",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "11|AgGtuUqMQIlJZilmg3uRctk01xYOJr9RcBHiWWyB",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'accept', value: 'application/json' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
