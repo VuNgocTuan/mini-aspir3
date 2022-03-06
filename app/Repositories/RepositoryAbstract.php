@@ -31,7 +31,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
 	public function store(array $data)
 	{
-		return $this->model::create($data);
+		$model = $this->model::create($data);
+		
+		return $model->fresh();
 	}
 
 	public function insert(array $data)

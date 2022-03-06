@@ -3,6 +3,10 @@
 namespace LoanModule\Repositories\LoanApplication;
 
 use App\Repositories\RepositoryAbstract;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use LoanModule\Exceptions\LoanApplicationRepayNotAllowException;
+use LoanModule\Exceptions\LoanClosedRepayNotAllowException;
 use LoanModule\Models\LoanApplication;
 use LoanModule\Models\LoanStatus;
 
@@ -21,5 +25,63 @@ class LoanApplicationRepository extends RepositoryAbstract implements LoanApplic
             ->first();
 
         return !isset($loanApplication);
+    }
+
+    public function apply(int $userId, int $termByMonth, $amount): LoanApplication
+    {
+        $loanApplication = $this->store(
+            [
+                'user_id' => $userId,
+                'status_id' => LoanStatus::APPLICATION,
+                'amount' => $amount,
+                'start_date' => now(),
+                'end_date' => now()->addMonths($termByMonth),
+                'term' => $termByMonth,
+            ]
+        );
+
+        return $loanApplication->load('status');
+    }
+
+    public function getListOfUser(int $userId): Collection
+    {
+        return $this->findByField('user_id', $userId)
+            ->with(['status', 'repays'])
+            ->get();
+    }
+
+    public function get(int $userId, int $loanApplicationId): LoanApplication
+    {
+        $loanApplication = $this->findByFields([
+            'id' => $loanApplicationId,
+            'user_id' => $userId,
+        ])->first();
+
+        if (!$loanApplication) {
+            throw new ModelNotFoundException();
+        }
+
+        return $loanApplication;
+    }
+
+    public function getLoanApplicationToRepay(int $userId, int $loanApplicationId): LoanApplication
+    {
+        $loanApplication = $this->get($userId, $loanApplicationId);
+        $statusId = $loanApplication->status?->id;
+
+        if ($statusId == LoanStatus::APPLICATION) {
+            throw new LoanApplicationRepayNotAllowException();
+        } elseif ($statusId == LoanStatus::CLOSED) {
+            throw new LoanClosedRepayNotAllowException();
+        }
+
+        return $loanApplication->load('repays');
+    }
+
+    public function updateStatus(int $loanApplicationId, int $loanStatus): bool
+    {
+        return $this->findOrFail($loanApplicationId)->update([
+            'status_id' => $loanStatus
+        ]);
     }
 }

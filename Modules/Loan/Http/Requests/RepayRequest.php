@@ -4,13 +4,12 @@ namespace LoanModule\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
 
-class LoanApplyRequest extends BaseRequest
+class RepayRequest extends BaseRequest
 {
     public function rules(): array
     {
         return [
-            'term_by_month' => 'required|numeric|max:120',
-            'amount' => "required|numeric|min:10",
+            'amount' => "required|numeric|min:1",
         ];
     }
 

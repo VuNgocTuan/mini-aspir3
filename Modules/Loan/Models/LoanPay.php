@@ -14,4 +14,9 @@ class LoanPay extends Model
         'amount',
         'pay_date',
     ];
+
+    public function loanApplication()
+    {
+        return $this->belongsTo(LoanApplication::class, 'id', 'loan_id');
+    }
 }
