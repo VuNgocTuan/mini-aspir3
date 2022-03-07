@@ -14,7 +14,7 @@ trait JSONResponseTrait
     public function generateErrorResponse(string $msg, int $code = Response::HTTP_NOT_FOUND)
     {
         return response()->json([
-            'error' => $msg
+            "errors" => ['message' => $msg]
         ], $code);
     }
 }
