@@ -23,11 +23,6 @@ class LoanUserService extends LoanService
         return $this->loanApplicationRepository->apply($user->id, $termByMonth, $amount);
     }
 
-    public function getLoanApplicationList(User $user)
-    {
-        return $this->loanApplicationRepository->getListOfUser($user->id);
-    }
-
     public function repay(User $user, int $loanApplicationId, $amount)
     {
         return DB::transaction(function () use ($user, $loanApplicationId, $amount) {
@@ -35,10 +30,10 @@ class LoanUserService extends LoanService
                 $user->id,
                 $loanApplicationId
             );
-            
+
             $totalLoanAmount = $loanApplication->amount;
 
-            $weeklyLoanAmount = $this->getWeeklyLoanAmount(
+            $weeklyLoanAmount = $this->getNextRepayAmount(
                 $loanApplication->start_date,
                 $loanApplication->end_date,
                 $totalLoanAmount,
@@ -76,26 +71,5 @@ class LoanUserService extends LoanService
     private function isLastRepayToClosed($totalLoanAmount, $allRepayAmount): bool
     {
         return $totalLoanAmount - $allRepayAmount <= 0;
-    }
-
-    private function getWeeklyLoanAmount($statDate, $endDate, $totalLoanAmount, $repays)
-    {
-        $weeklyLoanAmount = $this->getWeeklyLoanAmountRepay(
-            $statDate,
-            $endDate,
-            $totalLoanAmount,
-        );
-
-        $totalWeeksNeedToPay = $this->calculateWeeksNeedToPay(
-            $statDate,
-            $endDate
-        );
-        $totalWeeksRepay = $repays->count();
-
-        if ($totalWeeksNeedToPay - $totalWeeksRepay == 1) {
-            $weeklyLoanAmount = $this->getLoanAmountRemains($repays, $totalLoanAmount);
-        }
-
-        return $weeklyLoanAmount;
     }
 }

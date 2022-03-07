@@ -43,13 +43,6 @@ class LoanApplicationRepository extends RepositoryAbstract implements LoanApplic
         return $loanApplication->load('status');
     }
 
-    public function getListOfUser(int $userId): Collection
-    {
-        return $this->findByField('user_id', $userId)
-            ->with(['status', 'repays'])
-            ->get();
-    }
-
     public function get(int $userId, int $loanApplicationId): LoanApplication
     {
         $loanApplication = $this->findByFields([
@@ -83,5 +76,17 @@ class LoanApplicationRepository extends RepositoryAbstract implements LoanApplic
         return $this->findOrFail($loanApplicationId)->update([
             'status_id' => $loanStatus
         ]);
+    }
+
+    public function getList(?int $userId, ?int $status): Collection
+    {
+        return $this->with(['status', 'repays'])
+            ->when($userId, function ($query) use ($userId) {
+                return $query->where('user_id', $userId);
+            })
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status_id', $status);
+            })
+            ->get();
     }
 }

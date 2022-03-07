@@ -2,12 +2,11 @@
 
 namespace LoanModule\Http\Resources;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use LoanModule\Http\Traits\LoanTermTraits;
 use LoanModule\Models\LoanStatus;
 
-class ListResource extends JsonResource
+class ListOfBankerResource extends JsonResource
 {
     use LoanTermTraits;
 
@@ -15,6 +14,7 @@ class ListResource extends JsonResource
     {
         $data = [
             'loan_id' => $this->id,
+            'user_id' => $this->user_id,
             'amount' => $this->amount . __('attrs.currency'),
             'term_by_month' => $this->term,
         ];
@@ -26,7 +26,7 @@ class ListResource extends JsonResource
         }
 
         if ($this->status_id == LoanStatus::OPEN) {
-            $data['weekly_loan_amount_repay'] = $this->getWeeklyLoanAmountRepay($this->start_date, $this->end_date, $this->amount) . __('attrs.currency');
+            $data['next_loan_amount_repay'] = $this->getNextRepayAmount($this->start_date, $this->end_date, $this->amount, $this->repays) . __('attrs.currency');
             $data['loan_amount_remains'] = $this->getLoanAmountRemains($this->repays, $this->amount) . __('attrs.currency');
         }
 

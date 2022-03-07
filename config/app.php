@@ -180,6 +180,7 @@ return [
          */
         UserModule\Providers\RepositoryServiceProvider::class,
         LoanModule\Providers\RepositoryServiceProvider::class,
+        BankUserModule\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

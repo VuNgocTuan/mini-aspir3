@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use LoanModule\Http\Controllers\LoanBankUserController;
 use LoanModule\Http\Controllers\LoanUserController;
 
 Route::controller(LoanUserController::class)
@@ -10,4 +11,13 @@ Route::controller(LoanUserController::class)
         Route::post('/', 'apply');
         Route::get('/', 'getLoanApplicationList');
         Route::post('/{id}/repay', 'repay');
+    });
+
+Route::controller(LoanBankUserController::class)
+    ->middleware('auth:bankUsers')
+    ->prefix('/banker/applications')
+    ->group(function () {
+        //Get List application
+        Route::post('/{id}/apply', 'apply');
+        Route::get('/', 'getLoanApplicationList');
     });

@@ -3,10 +3,11 @@
 namespace LoanModule\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use LoanModule\Http\Requests\LoanApplyRequest;
 use LoanModule\Http\Requests\RepayRequest;
-use LoanModule\Http\Resources\ListResource;
+use LoanModule\Http\Resources\ListOfUserResource;
 use LoanModule\Http\Resources\LoanApplicationResource;
 use LoanModule\Http\Resources\RepayResource;
 use LoanModule\Services\LoanUserService;
@@ -42,13 +43,13 @@ class LoanUserController extends Controller
         return new LoanApplicationResource($newLoanApplication);
     }
 
-    public function getLoanApplicationList()
+    public function getLoanApplicationList(Request $request)
     {
         $user = $this->getCurrentUser();
 
-        $loanApplications = $this->loanUserService->getLoanApplicationList($user);
+        $loanApplications = $this->loanUserService->getLoanApplicationList($user->id, $request->input('status'));
 
-        return ListResource::collection($loanApplications);
+        return ListOfUserResource::collection($loanApplications);
     }
 
     public function repay(RepayRequest $request, $loanApplicationId)

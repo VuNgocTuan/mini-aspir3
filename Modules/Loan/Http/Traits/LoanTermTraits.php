@@ -31,4 +31,25 @@ trait LoanTermTraits
 
         return number_format($amount, 2, '.', '');
     }
+
+    private function getNextRepayAmount($statDate, $endDate, $totalLoanAmount, $repays)
+    {
+        $nextRepayAmount = $this->getWeeklyLoanAmountRepay(
+            $statDate,
+            $endDate,
+            $totalLoanAmount,
+        );
+
+        $totalWeeksNeedToPay = $this->calculateWeeksNeedToPay(
+            $statDate,
+            $endDate
+        );
+        $totalWeeksRepay = $repays->count();
+
+        if ($totalWeeksNeedToPay - $totalWeeksRepay == 1) {
+            $nextRepayAmount = $this->getLoanAmountRemains($repays, $totalLoanAmount);
+        }
+
+        return $nextRepayAmount;
+    }
 }

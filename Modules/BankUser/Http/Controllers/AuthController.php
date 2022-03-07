@@ -1,11 +1,11 @@
 <?php
 
-namespace UserModule\Http\Controllers;
+namespace BankUserModule\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use BankUserModule\Http\Requests\AuthenticateRequest;
+use BankUserModule\Services\AuthService;
 use Illuminate\Http\Response;
-use UserModule\Http\Requests\AuthenticateRequest;
-use UserModule\Services\AuthService;
 
 class AuthController extends Controller
 {
