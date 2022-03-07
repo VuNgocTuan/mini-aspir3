@@ -1,12 +1,22 @@
-# Aspire Mini-API
+# Mini-Aspire API
 
-The projects help users to create & manage loan applications.
+The projects help users & banker to create & manage loan applications.
 
 ## Requirement
 1. Docker.
-2. PHP & Composer
-3. Laravel 8
-4. VSCode
+2. PHP & Composer.
+3. VSCode.
+
+## Environment
+1. Nginx.
+2. Mariadb.
+3. PHP 8.0.
+4. Laravel 8.
+5. Docker & Laradock.
+
+## Pattern
+
+Repositories Pattern & Module Separation.
 
 ## Installation
 
@@ -65,6 +75,7 @@ php artisan test
 ## Docs
 
 1. Postman (.json): /postman/*.json.
+2. [Project Brief](https://github.com/VuNgocTuan/mini-aspir3/blob/develop/BRIEF.md)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
