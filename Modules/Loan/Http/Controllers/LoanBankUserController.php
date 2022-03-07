@@ -4,6 +4,7 @@ namespace LoanModule\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use LoanModule\Http\Requests\BankerLoanApplyRequest;
 use LoanModule\Http\Resources\ListOfBankerResource;
 use LoanModule\Services\LoanUserBankService;
 
@@ -13,17 +14,14 @@ class LoanBankUserController extends Controller
     {
     }
 
-    public function apply(Request $request)
+    public function apply(BankerLoanApplyRequest $request)
     {
-        $loanApplicationId = (int) $request->id;
+        $loanApplicationId = $request->id;
+        $bankUser = $this->getCurrentBankUser();
 
-        if (!empty($loanApplicationId) || !is_numeric($loanApplicationId)) {
-            abort(404);
-        }
+        $this->loanUserBankService->apply($bankUser->id, $loanApplicationId);
 
-        dd($loanApplicationId);
-
-        // $this->loanUserBankService->apply($loanApplicationId);
+        return $this->generateSuccessResponse();
     }
 
     public function getLoanApplicationList(Request $request)

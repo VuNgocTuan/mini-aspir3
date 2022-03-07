@@ -5,6 +5,7 @@ namespace LoanModule\Repositories\LoanApplication;
 use App\Repositories\RepositoryAbstract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use LoanModule\Exceptions\LoanApplicationAlreadyApplyException;
 use LoanModule\Exceptions\LoanApplicationRepayNotAllowException;
 use LoanModule\Exceptions\LoanClosedRepayNotAllowException;
 use LoanModule\Models\LoanApplication;
@@ -88,5 +89,19 @@ class LoanApplicationRepository extends RepositoryAbstract implements LoanApplic
                 return $query->where('status_id', $status);
             })
             ->get();
+    }
+
+    public function applyByBanker(int $bankUserId, int $loanApplicationId): bool
+    {
+        $loanApplication = $this->findOrFail($loanApplicationId);
+
+        if (in_array($loanApplication->status_id, [LoanStatus::OPEN, LoanStatus::CLOSED])) {
+            throw new LoanApplicationAlreadyApplyException();
+        }
+
+        return $loanApplication->update([
+            'bank_user_id' => $bankUserId,
+            'status_id' => LoanStatus::OPEN
+        ]);
     }
 }

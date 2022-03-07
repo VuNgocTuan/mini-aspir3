@@ -4,10 +4,8 @@ namespace LoanModule\Services;
 
 class LoanUserBankService extends LoanService
 {
-    public function apply($loanApplicationId)
+    public function apply($userBankId, $loanApplicationId)
     {
-        $loanApplication = $this->loanApplicationRepository->find($loanApplicationId)->first();
-
-        dd($loanApplication);
+        return $this->loanApplicationRepository->applyByBanker($userBankId, $loanApplicationId);
     }
 }

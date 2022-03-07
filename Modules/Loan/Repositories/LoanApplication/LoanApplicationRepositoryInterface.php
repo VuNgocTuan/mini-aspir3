@@ -19,4 +19,6 @@ interface LoanApplicationRepositoryInterface extends RepositoryInterface
     public function updateStatus(int $loanApplicationId, int $loanStatus): bool;
 
     public function getList(?int $userId, ?int $status): Collection;
+
+    public function applyByBanker(int $bankUserId, int $loanApplicationId): bool;
 }

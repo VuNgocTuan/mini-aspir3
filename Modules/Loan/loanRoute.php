@@ -17,7 +17,6 @@ Route::controller(LoanBankUserController::class)
     ->middleware('auth:bankUsers')
     ->prefix('/banker/applications')
     ->group(function () {
-        //Get List application
-        Route::post('/{id}/apply', 'apply');
+        Route::post('/apply', 'apply');
         Route::get('/', 'getLoanApplicationList');
     });
