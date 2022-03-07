@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api/user')
                 ->middleware('api')
                 ->namespace($this->namespace)
-                ->group(base_path('Modules/User/Http/userRoute.php'));
+                ->group(base_path('Modules/User/userRoute.php'));
 
             Route::prefix('api/loan')
                 ->middleware('api')
