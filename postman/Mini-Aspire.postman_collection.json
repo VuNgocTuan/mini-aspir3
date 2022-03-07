@@ -25,12 +25,12 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "turcotte.rasheed@example.org",
+									"value": "harley@example.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "12345678",
+									"value": "1234@5678",
 									"type": "text"
 								}
 							]
@@ -75,14 +75,11 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost/api/user/auth",
-									"protocol": "http",
+									"raw": "{{userApiUrl}}/auth",
 									"host": [
-										"localhost"
+										"{{userApiUrl}}"
 									],
 									"path": [
-										"api",
-										"user",
 										"auth"
 									]
 								}
@@ -122,14 +119,11 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost/api/user/auth",
-									"protocol": "http",
+									"raw": "{{userApiUrl}}/auth",
 									"host": [
-										"localhost"
+										"{{userApiUrl}}"
 									],
 									"path": [
-										"api",
-										"user",
 										"auth"
 									]
 								}
@@ -139,7 +133,7 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"error\": \"These credentials do not match our records.\"\n}"
+							"body": "{\n    \"errors\": {\n        \"message\": \"These credentials do not match our records.\"\n    }\n}"
 						},
 						{
 							"name": "Success",
@@ -158,25 +152,22 @@
 									"urlencoded": [
 										{
 											"key": "email",
-											"value": "turcotte.rasheed@example.org",
+											"value": "harley@example.com",
 											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "12345678",
+											"value": "1234@5678",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "http://localhost/api/user/auth",
-									"protocol": "http",
+									"raw": "{{userApiUrl}}/auth",
 									"host": [
-										"localhost"
+										"{{userApiUrl}}"
 									],
 									"path": [
-										"api",
-										"user",
 										"auth"
 									]
 								}
@@ -242,14 +233,11 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost/api/loan/applications",
-									"protocol": "http",
+									"raw": "{{loanApiUrl}}/applications",
 									"host": [
-										"localhost"
+										"{{loanApiUrl}}"
 									],
 									"path": [
-										"api",
-										"loan",
 										"applications"
 									]
 								}
@@ -296,7 +284,7 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"error\": \"You cannot apply for more loan applications.\"\n}"
+							"body": "{\n    \"errors\": {\n        \"message\": \"You cannot apply for more loan applications.\"\n    }\n}"
 						},
 						{
 							"name": "Success",
@@ -347,19 +335,19 @@
 							"urlencoded": [
 								{
 									"key": "amount",
-									"value": "56.78",
+									"value": "56.82",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{loanApiUrl}}/applications/6/repay",
+							"raw": "{{loanApiUrl}}/applications/2/repay",
 							"host": [
 								"{{loanApiUrl}}"
 							],
 							"path": [
 								"applications",
-								"6",
+								"2",
 								"repay"
 							]
 						}
@@ -397,7 +385,7 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"error\": \"You can not repay the closed loan application.\"\n}"
+							"body": "{\n    \"errors\": {\n        \"message\": \"You can not repay the closed loan application.\"\n    }\n}"
 						},
 						{
 							"name": "Application Not Allow",
@@ -431,7 +419,7 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"error\": \"You need to wait for your loan application applied by a banker.\"\n}"
+							"body": "{\n    \"errors\": {\n        \"message\": \"You need to wait for your loan application applied by a banker.\"\n    }\n}"
 						},
 						{
 							"name": "Repay Invalid Amount",
@@ -465,7 +453,7 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"error\": \"Your repay amount is not equal to the weekly repay amount is 25$.\"\n}"
+							"body": "{\n    \"errors\": {\n        \"message\": \"Your repay amount is not equal to the weekly repay amount is 56.82$.\"\n    }\n}"
 						},
 						{
 							"name": "Success",
@@ -514,6 +502,14 @@
 							],
 							"path": [
 								"applications"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "1",
+									"description": "1: Application, 2: Open, 3: Closed",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -524,15 +520,19 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost/api/loan/applications",
-									"protocol": "http",
+									"raw": "{{loanApiUrl}}/applications?status",
 									"host": [
-										"localhost"
+										"{{loanApiUrl}}"
 									],
 									"path": [
-										"api",
-										"loan",
 										"applications"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": null,
+											"description": "1: Application, 2: Open, 3: Closed"
+										}
 									]
 								}
 							},
@@ -541,9 +541,39 @@
 							"_postman_previewlanguage": "json",
 							"header": null,
 							"cookie": [],
-							"body": "{\n    \"data\": [\n        {\n            \"loan_id\": 2,\n            \"amount\": \"100.00$\",\n            \"term_by_month\": 1,\n            \"start_date\": \"2022-03-03\",\n            \"expired_date\": \"2022-04-03\",\n            \"repays\": [\n                {\n                    \"id\": 1,\n                    \"loan_id\": 2,\n                    \"amount\": \"25.00$\",\n                    \"repay_date\": \"2022-03-10\"\n                },\n                {\n                    \"id\": 2,\n                    \"loan_id\": 2,\n                    \"amount\": \"25.00$\",\n                    \"repay_date\": \"2022-03-17\"\n                }\n            ],\n            \"loan_amount_remains\": \"50$\",\n            \"status\": \"Open\",\n            \"created_at\": \"2022-03-06T22:21:11.000000Z\"\n        },\n        {\n            \"loan_id\": 5,\n            \"amount\": \"150.00$\",\n            \"term_by_month\": 2,\n            \"status\": \"Application\",\n            \"created_at\": \"2022-03-06T16:24:53.000000Z\"\n        }\n    ]\n}"
+							"body": "{\n    \"data\": [\n        {\n            \"loan_id\": 1,\n            \"amount\": \"1000.00$\",\n            \"term_by_month\": 2,\n            \"start_date\": \"2022-01-01\",\n            \"expired_date\": \"2022-03-01\",\n            \"repays\": [\n                {\n                    \"id\": 1,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 2,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 3,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 4,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 5,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 6,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 7,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 8,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.11$\",\n                    \"repay_date\": \"2022-03-07\"\n                },\n                {\n                    \"id\": 9,\n                    \"loan_id\": 1,\n                    \"amount\": \"111.12$\",\n                    \"repay_date\": \"2022-03-07\"\n                }\n            ],\n            \"status\": \"Closed\",\n            \"created_at\": \"2022-03-07T10:08:49.000000Z\"\n        },\n        {\n            \"loan_id\": 2,\n            \"amount\": \"15000.00$\",\n            \"term_by_month\": 4,\n            \"status\": \"Application\",\n            \"created_at\": \"2022-03-07T10:17:28.000000Z\"\n        }\n    ]\n}"
 						}
 					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "2|ds0RKt0RrOcB28TQjSxernSJDFEMjrB9H6vM8neu",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -553,26 +583,418 @@
 				{
 					"name": "Authenticate",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankUserApiUrl}}/auth?email=banker-staff01@aspiredev.com&password=1234@5678",
+							"host": [
+								"{{bankUserApiUrl}}"
+							],
+							"path": [
+								"auth"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "banker-staff01@aspiredev.com"
+								},
+								{
+									"key": "password",
+									"value": "1234@5678"
+								}
+							]
+						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Validate Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{bankUserApiUrl}}/auth",
+									"host": [
+										"{{bankUserApiUrl}}"
+									],
+									"path": [
+										"auth"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "banker-staff01@aspiredev.com",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "1234@56781",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"email\": \"The email must be a valid email address.\",\n        \"password\": \"The password field is required.\"\n    }\n}"
+						},
+						{
+							"name": "Creadentials Invalid Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "\"application/json\"",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "xzy.abc@example.xzy",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{bankUserApiUrl}}/auth",
+									"host": [
+										"{{bankUserApiUrl}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"message\": \"These credentials do not match our records.\"\n    }\n}"
+						},
+						{
+							"name": "Success Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "\"application/json\"",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "turcotte.rasheed@example.org",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{userApiUrl}}/auth",
+									"host": [
+										"{{userApiUrl}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"token\": \"11|AgGtuUqMQIlJZilmg3uRctk01xYOJr9RcBHiWWyB\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Loan User list",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{loanApiUrl}}/banker/applications",
+							"host": [
+								"{{loanApiUrl}}"
+							],
+							"path": [
+								"banker",
+								"applications"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Loan User list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{loanApiUrl}}/banker/applications?user_id=1&status=1",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"banker",
+										"applications"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "1"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"data\": [\n        {\n            \"loan_id\": 2,\n            \"user_id\": 1,\n            \"amount\": \"15000.00$\",\n            \"term_by_month\": 4,\n            \"status\": \"Application\",\n            \"created_at\": \"2022-03-07T10:17:28.000000Z\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
-					"name": "Loan Process",
+					"name": "Loan Apply",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{loanApiUrl}}/banker/applications/apply",
+							"host": [
+								"{{loanApiUrl}}"
+							],
+							"path": [
+								"banker",
+								"applications",
+								"apply"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/banker/applications/apply",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"banker",
+										"applications",
+										"apply"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "[]"
+						},
+						{
+							"name": "Validate Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/banker/applications/apply",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"banker",
+										"applications",
+										"apply"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"id\": \"The id field is required.\"\n    }\n}"
+						},
+						{
+							"name": "Already applied",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{loanApiUrl}}/banker/applications/apply",
+									"host": [
+										"{{loanApiUrl}}"
+									],
+									"path": [
+										"banker",
+										"applications",
+										"apply"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"errors\": {\n        \"message\": \"This loan application already apply.\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "1|MYVFSX0x2zXPgQvDHumKZvqXBdTHGr2sEqgQy6up",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

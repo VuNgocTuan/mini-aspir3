@@ -36,7 +36,7 @@ php artisan migrate
 
 After containers up, open [http://localhost](http://localhost) to test.
 
-4. Users test
+4. Users credentials for test
 
 ```bash
 User: harley@example.com/1234@5678
@@ -53,6 +53,13 @@ cp createdb-testing.sql laradock/mariadb/docker-entrypoint-initdb.d/
 cd laradock && docker-compose exec mariadb bash
 mysql -u root -p < /docker-entrypoint-initdb.d/createdb-testing.sql
 Enter root password: root
+```
+
+6. Run test
+
+```bash
+cd laradock && docker-compose exec workspace bash
+php artisan test
 ```
 
 ## Docs
